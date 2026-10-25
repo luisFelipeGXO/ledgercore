@@ -2,6 +2,7 @@ package com.ledgercore.presentation;
 
 import com.ledgercore.domain.Account;
 import com.ledgercore.application.AccountService;
+import com.ledgercore.domain.Transfer;
 
 import java.util.List;
 import java.util.Scanner;
@@ -12,6 +13,7 @@ public class Menu {
         Scanner scanner = new Scanner(System.in);
         AccountService service = new AccountService();
         List<Account> accounts = service.listAccounts();
+        List<Transfer> transfers = service.listTransfers();
 
         int n;
 
@@ -55,13 +57,18 @@ public class Menu {
                     scanner.nextLine();
                     new MakeOperation(service);
                     break;
+                case 4:
+                    scanner.nextLine();
+                    for(Transfer transferList : transfers) {
+                        System.out.println(transferList);
+                    }
+                    break;
                 case 5:
                     scanner.nextLine();
                     for(Account accountList : accounts) {
                         System.out.println(accountList);
                     }
                     break;
-
             }
         }
         while (n != 0);

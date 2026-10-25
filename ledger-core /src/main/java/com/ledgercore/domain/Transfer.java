@@ -5,8 +5,11 @@ import com.ledgercore.application.AccountService;
 public class Transfer {
 
     private final AccountService account;
-    private AccountService service;
-    private Account accountOne;
+    private static int nextId = 1;
+    private int id;
+    private int originId;
+    private int destinationId;
+    private double valueTrans;
 
     public Transfer(AccountService account) {
         this.account = account;
@@ -20,9 +23,17 @@ public class Transfer {
 
         if(accoutOne != null && accoutTwo != null &&
         accoutOne.getBalance() > value) {
+            transfer.id = nextId;
+            transfer.originId = transOne;
+            transfer.destinationId = transTwo;
+            transfer.valueTrans = value;
+
             account.addCredit(transTwo, value);
             account.addDebit(transOne, value);
-            System.out.println("Successful!");
+            nextId++;
+            account.addTransfer(transfer);
+
+            System.out.println("Successful! Transaction ID: " +transfer.id);
         } else {
             System.out.println("Error.");
             return null;
@@ -30,4 +41,13 @@ public class Transfer {
         return transfer;
     }
 
+    @Override
+    public String toString() {
+        return "Transfer{" +
+                ", id=" + id +
+                ", originId=" + originId +
+                ", destinationId=" + destinationId +
+                ", valueTrans=" + valueTrans +
+                '}';
+    }
 }
